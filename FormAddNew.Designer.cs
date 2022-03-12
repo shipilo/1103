@@ -43,6 +43,9 @@ namespace _1103
             this.label4 = new System.Windows.Forms.Label();
             this.rtbDiag = new System.Windows.Forms.RichTextBox();
             this.bClose = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.bOpenImgDialog = new System.Windows.Forms.Button();
+            this.lImgFileName = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,6 +66,9 @@ namespace _1103
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
+            this.panel1.Controls.Add(this.lImgFileName);
+            this.panel1.Controls.Add(this.bOpenImgDialog);
+            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.dateTimePicker1);
             this.panel1.Controls.Add(this.rbFemale);
@@ -76,7 +82,7 @@ namespace _1103
             this.panel1.Controls.Add(this.rtbDiag);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(483, 510);
+            this.panel1.Size = new System.Drawing.Size(482, 510);
             this.panel1.TabIndex = 2;
             // 
             // label5
@@ -86,7 +92,7 @@ namespace _1103
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.861538F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(57, 245);
+            this.label5.Location = new System.Drawing.Point(68, 247);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(76, 20);
             this.label5.TabIndex = 15;
@@ -100,7 +106,7 @@ namespace _1103
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.861538F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dateTimePicker1.Location = new System.Drawing.Point(151, 194);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(307, 26);
+            this.dateTimePicker1.Size = new System.Drawing.Size(306, 26);
             this.dateTimePicker1.TabIndex = 14;
             // 
             // rbFemale
@@ -141,7 +147,7 @@ namespace _1103
             this.tbSur.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.861538F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tbSur.Location = new System.Drawing.Point(151, 73);
             this.tbSur.Name = "tbSur";
-            this.tbSur.Size = new System.Drawing.Size(307, 26);
+            this.tbSur.Size = new System.Drawing.Size(306, 26);
             this.tbSur.TabIndex = 2;
             // 
             // tbName
@@ -152,7 +158,7 @@ namespace _1103
             this.tbName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.861538F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tbName.Location = new System.Drawing.Point(151, 27);
             this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(307, 26);
+            this.tbName.Size = new System.Drawing.Size(306, 26);
             this.tbName.TabIndex = 1;
             // 
             // label1
@@ -221,7 +227,7 @@ namespace _1103
             this.rtbDiag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.861538F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rtbDiag.Location = new System.Drawing.Point(151, 245);
             this.rtbDiag.Name = "rtbDiag";
-            this.rtbDiag.Size = new System.Drawing.Size(307, 244);
+            this.rtbDiag.Size = new System.Drawing.Size(306, 207);
             this.rtbDiag.TabIndex = 16;
             this.rtbDiag.Text = "";
             // 
@@ -235,6 +241,36 @@ namespace _1103
             this.bClose.Text = "Закрыть";
             this.bClose.UseVisualStyleBackColor = true;
             this.bClose.Click += new System.EventHandler(this.bClose_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.861538F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(89, 465);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(55, 20);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Фото:";
+            // 
+            // bOpenImgDialog
+            // 
+            this.bOpenImgDialog.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.861538F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bOpenImgDialog.Location = new System.Drawing.Point(151, 461);
+            this.bOpenImgDialog.Name = "bOpenImgDialog";
+            this.bOpenImgDialog.Size = new System.Drawing.Size(39, 28);
+            this.bOpenImgDialog.TabIndex = 18;
+            this.bOpenImgDialog.Text = "...";
+            this.bOpenImgDialog.UseVisualStyleBackColor = true;
+            // 
+            // lImgFileName
+            // 
+            this.lImgFileName.AutoSize = true;
+            this.lImgFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.861538F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lImgFileName.Location = new System.Drawing.Point(196, 465);
+            this.lImgFileName.Name = "lImgFileName";
+            this.lImgFileName.Size = new System.Drawing.Size(144, 20);
+            this.lImgFileName.TabIndex = 19;
+            this.lImgFileName.Text = "(Файл не выбран)";
             // 
             // FormAddNew
             // 
@@ -269,5 +305,8 @@ namespace _1103
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.RadioButton rbFemale;
         private System.Windows.Forms.RadioButton rbMale;
+        private System.Windows.Forms.Label lImgFileName;
+        private System.Windows.Forms.Button bOpenImgDialog;
+        private System.Windows.Forms.Label label6;
     }
 }

@@ -16,9 +16,9 @@ namespace _1103
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //DateBaseCommand("SELECT * FROM[Main]");
+            DateBaseCommand("SELECT * FROM[Main]");
 
-            String str;
+            /*String str;
             SqlConnection myConn = new SqlConnection("Server=localhost;Integrated security=SSPI;database=master");
 
             str = "CREATE DATABASE MyDatabase ON PRIMARY " +
@@ -48,7 +48,7 @@ namespace _1103
                 {
                     myConn.Close();
                 }
-            }
+            }*/
         }
 
         public void DateBaseCommand(string command)
@@ -84,7 +84,7 @@ namespace _1103
 
         private void bInfo_Click(object sender, EventArgs e)
         {
-            FormInfo form = new FormInfo(row);
+            FormInfo form = new FormInfo(row + 1);
             form.Show();
         }
 
