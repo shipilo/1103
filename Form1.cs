@@ -1,79 +1,85 @@
 ﻿using System;
-using System.Data;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.IO;
+using System.Drawing;
+using System.Collections.Generic;
 
 namespace _1103
 {
     public partial class Form1 : Form
     {
         private int row;
+        public static string tableName;
+        public SqlConnection con;
+        public Dictionary<int, string> imgPaths;
 
         public Form1()
         {
             InitializeComponent();
+            con = new SqlConnection("Server=localhost;Integrated security=SSPI;database=master");
+            imgPaths = new Dictionary<int, string>();
+            tableName = "Patients_shipilo";
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            DateBaseCommand("SELECT * FROM[Main]");
-
-            /*String str;
-            SqlConnection myConn = new SqlConnection("Server=localhost;Integrated security=SSPI;database=master");
-
-            str = "CREATE DATABASE MyDatabase ON PRIMARY " +
-             "(NAME = MyDatabase_Data, " +
-             "FILENAME = 'MyDatabaseData.mdf', " +
-             "SIZE = 2MB, MAXSIZE = 10MB, FILEGROWTH = 10%)" +
-             "LOG ON (NAME = MyDatabase_Log, " +
-             "FILENAME = 'MyDatabaseLog.ldf', " +
-             "SIZE = 1MB, " +
-             "MAXSIZE = 5MB, " +
-             "FILEGROWTH = 10%)";
-
-            SqlCommand myCommand = new SqlCommand(str, myConn);
+            bool dbIsExist = false;
+            con.Open();
+            SqlCommand com1 = new SqlCommand("SELECT CONVERT(BIT, COUNT(*)) FROM sys.tables WHERE name = N'" + tableName + "'", con);
+            SqlDataReader reader = null;
             try
             {
-                myConn.Open();
-                myCommand.ExecuteNonQuery();
-                MessageBox.Show("DataBase is Created Successfully", "MyProgram", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                reader = com1.ExecuteReader();
+                reader.Read();
+                dbIsExist = Convert.ToBoolean(reader[0]);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "MyProgram", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(ex.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            finally
+            if (reader != null) reader.Close();
+            if (!dbIsExist)
             {
-                if (myConn.State == ConnectionState.Open)
+                SqlCommand com2 = new SqlCommand(
+                    "CREATE TABLE " + tableName +
+                    "(id INT PRIMARY KEY IDENTITY (1,1) NOT NULL," +
+                    "Name NVARCHAR(30)," +
+                    "Surname NVARCHAR(30)," +
+                    "Gender NVARCHAR(30)," +
+                    "Birth DATE," +
+                    "ImgPath NVARCHAR(max)," +
+                    "Diagnosis NVARCHAR(30)," +
+                    "History NVARCHAR(30))", con);
+                try
                 {
-                    myConn.Close();
+                    com2.ExecuteNonQuery();
                 }
-            }*/
-        }
-
-        public void DateBaseCommand(string command)
-        {
-            SqlConnection sqlCon = new SqlConnection("Server=localhost;Integrated security=SSPI;database=PatientsBD");
-            sqlCon.Open();
-
-            if (command.Split()[0].ToLower().Equals("insert"))
-            {
-                SqlCommand sqlCom1 = new SqlCommand(command, sqlCon);
-                MessageBox.Show(sqlCom1.ExecuteNonQuery().ToString());
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-
-            SqlCommand sqlCom2 = new SqlCommand("SELECT * FROM [Main1]", sqlCon);
-            SqlDataReader sqlReader = sqlCom2.ExecuteReader();
-
-            dgvTable.Rows.Clear();
-
-            while (sqlReader.Read())
+            if (dbIsExist)
             {
-                dgvTable.Rows.Add(sqlReader["id"], sqlReader["Name"], sqlReader["Surname"], sqlReader["Gender"], Convert.ToDateTime(sqlReader["Birthday"]).ToString("MMMM dd, yyyy"));
+                SqlCommand com3 = new SqlCommand("SELECT * FROM " + tableName, con);
+                dgvTable.Rows.Clear();
+                try
+                {
+                    reader = com3.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        dgvTable.Rows.Add(reader["id"], reader["Name"], reader["Surname"], reader["Gender"], Convert.ToDateTime(reader["Birth"]).ToString("MMMM dd, yyyy"));
+                        imgPaths.Add(Convert.ToInt32(reader["id"]), reader["ImgPath"].ToString());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-            sqlReader.Close();
-            sqlCon.Close();
-            sqlCon.Dispose();
+            reader.Close();
+            con.Close();
         }
 
         private void bAddNew_Click(object sender, EventArgs e)
@@ -93,9 +99,9 @@ namespace _1103
             row = e.RowIndex;
             if (row != -1 && dgvTable.Rows[row].Cells[0].Value != null)
             {
-                if (dgvTable.Rows[row].Cells[0].Value.ToString() == "1")
+                if (File.Exists(imgPaths[(int)dgvTable.Rows[row].Cells[0].Value]))
                 {
-                    pbPhoto.Image = _1103.Properties.Resources.img_709x945x24_0214;
+                    pbPhoto.Image = new Bitmap(imgPaths[(int)dgvTable.Rows[row].Cells[0].Value]);
                 }
                 else
                 {

@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace _1103
@@ -14,51 +9,70 @@ namespace _1103
     public partial class FormInfo : Form
     {
         private int row;
+        private bool isHistoryChanged;
 
         public FormInfo(int row)
         {
             InitializeComponent();
             this.row = row;
+            isHistoryChanged = false;
         }
 
         private void FormInfo_Load(object sender, EventArgs e)
         {
-            SqlConnection sqlCon = new SqlConnection("Server=localhost;Integrated security=SSPI;database=PatientsBD");
-            sqlCon.Open();
-            
-            SqlCommand sqlCom1 = new SqlCommand($"SELECT * FROM [Main1] where id={row}", sqlCon);
-            SqlDataReader sqlReader = sqlCom1.ExecuteReader();
-
-            while (sqlReader.Read())
+            SqlConnection con = new SqlConnection("Server=localhost;Integrated security=SSPI;database=master");
+            con.Open();            
+            SqlCommand com = new SqlCommand($"SELECT * FROM [{Form1.tableName}] where id={row}", con);
+            try
             {
-                lName.Text = sqlReader["Name"].ToString();
-                lFam.Text = sqlReader["Surname"].ToString();
-                lGen.Text = sqlReader["Gender"].ToString();
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (File.Exists(reader["ImgPath"].ToString()))
+                    {
+                        pbPhoto.Image = new Bitmap(reader["ImgPath"].ToString());
+                    }
+                    else
+                    {
+                        pbPhoto.Image = null;
+                    }
+                    lName.Text = reader["Name"].ToString();
+                    lFam.Text = reader["Surname"].ToString();
+                    lGen.Text = reader["Gender"].ToString();
+                    rtbDiag.Text = reader["Diagnosis"].ToString();
+                    rtbHis.Text = reader["History"].ToString();
+                    if (rtbDiag.Text == "") rtbDiag.Text = "Диагноз отсутствует.";
+                }
+                reader.Close();
             }
-
-            sqlReader.Close();
-
-
-            SqlCommand sqlCom2 = new SqlCommand($"SELECT * FROM [Main2] where id={row}", sqlCon);
-            sqlReader = sqlCom2.ExecuteReader();
-
-            while (sqlReader.Read())
+            catch (Exception ex)
             {
-                rtbDiag.Text = sqlReader["Diagnosis"].ToString();
-                rtbHis.Text = sqlReader["History"].ToString();
+                MessageBox.Show(ex.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            con.Close();
+        }
 
-            sqlReader.Close();
-            sqlCon.Close();
-            sqlCon.Dispose();
+        private void rtbHis_TextChanged(object sender, EventArgs e)
+        {
+            isHistoryChanged = true;
+        }
 
-            if (row == 1)
+        private void FormInfo_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (isHistoryChanged)
             {
-                pbPhoto.Image = _1103.Properties.Resources.img_709x945x24_0214;
-            }
-            else
-            {
-                pbPhoto.Image = null;
+                SqlConnection con = new SqlConnection("Server=localhost;Integrated security=SSPI;database=master");
+                con.Open();
+                SqlCommand com = new SqlCommand($"UPDATE {Form1.tableName} SET History = '{rtbHis.Text}' where id = {row}", con);
+                try
+                {
+                    com.ExecuteReader();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                con.Close();
             }
         }
     }

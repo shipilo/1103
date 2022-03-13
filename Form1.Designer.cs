@@ -301,7 +301,7 @@ namespace _1103
         #endregion
 
         private System.Windows.Forms.SplitContainer sc;
-        private System.Windows.Forms.DataGridView dgvTable;
+        public System.Windows.Forms.DataGridView dgvTable;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -314,11 +314,11 @@ namespace _1103
         private System.Windows.Forms.Label lSur;
         private System.Windows.Forms.Label lName;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        public System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        public System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        public System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        public System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        public System.Windows.Forms.DataGridViewTextBoxColumn Column5;
     }
 }
 

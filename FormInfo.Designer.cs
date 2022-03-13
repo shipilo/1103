@@ -179,10 +179,10 @@ namespace _1103
             this.rtbHis.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.861538F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rtbHis.Location = new System.Drawing.Point(3, 3);
             this.rtbHis.Name = "rtbHis";
-            this.rtbHis.ReadOnly = true;
             this.rtbHis.Size = new System.Drawing.Size(844, 269);
             this.rtbHis.TabIndex = 0;
             this.rtbHis.Text = "";
+            this.rtbHis.TextChanged += new System.EventHandler(this.rtbHis_TextChanged);
             // 
             // pbPhoto
             // 
@@ -208,6 +208,7 @@ namespace _1103
             this.Name = "FormInfo";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormInfo_FormClosing);
             this.Load += new System.EventHandler(this.FormInfo_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
