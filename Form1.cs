@@ -17,7 +17,7 @@ namespace _1103
         public Form1()
         {
             InitializeComponent();
-            con = new SqlConnection("Server=localhost;Integrated security=SSPI;database=master");
+            con = new SqlConnection("Server=(local);Integrated security=SSPI;database=master");
             imgPaths = new Dictionary<int, string>();
             tableName = "Patients_shipilo";
         }
@@ -25,7 +25,14 @@ namespace _1103
         private void Form1_Load(object sender, EventArgs e)
         {
             bool dbIsExist = false;
-            con.Open();
+            try
+            {
+                con.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             SqlCommand com1 = new SqlCommand("SELECT CONVERT(BIT, COUNT(*)) FROM sys.tables WHERE name = N'" + tableName + "'", con);
             SqlDataReader reader = null;
             try
@@ -78,7 +85,7 @@ namespace _1103
                     MessageBox.Show(ex.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            reader.Close();
+            if(reader != null) reader.Close();
             con.Close();
         }
 

@@ -27,7 +27,7 @@ namespace _1103
             string genValue = "Муж";
             if (rbFemale.Checked) genValue = "Жен";
 
-            SqlConnection con = new SqlConnection("Server=localhost;Integrated security=SSPI;database=master");
+            SqlConnection con = new SqlConnection("Server=(local);Integrated security=SSPI;database=master");
             con.Open();
             SqlCommand com1 = new SqlCommand("INSERT INTO " + Form1.tableName + " (Name, Surname, Gender, Birth, ImgPath, Diagnosis) " +
                 $"VALUES (N'{tbName.Text}', N'{tbSur.Text}', N'{genValue}', N'{dateTimePicker1.Value}', N'{imgPath}', N'{rtbDiag.Text}')", con); 

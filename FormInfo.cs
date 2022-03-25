@@ -20,7 +20,7 @@ namespace _1103
 
         private void FormInfo_Load(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection("Server=localhost;Integrated security=SSPI;database=master");
+            SqlConnection con = new SqlConnection("Server=(local);Integrated security=SSPI;database=master");
             con.Open();            
             SqlCommand com = new SqlCommand($"SELECT * FROM [{Form1.tableName}] where id={row}", con);
             try
